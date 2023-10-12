@@ -1,0 +1,292 @@
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class MyService {
+
+    @Autowired
+    private MyRepository myRepository;
+
+    @Transactional
+    public void saveData() {
+        myRepository.save(new MyEntity("data1"));
+        myRepository.save(new MyEntity("data2"));
+        // If an exception occurs here, both saves will be rolled back.
+    }
+}
+
+
+
+/*
+
+@Transactional(propagation = Propagation.REQUIRED, 
+              isolation = Isolation.READ_COMMITTED, 
+              timeout = 3600, 
+              readOnly = false, 
+              rollbackFor = MyException.class)
+public void myMethod() {
+    // ...
+}
+
+
+
+There are two types of transaction management:
+1. One is programmatic and more verbose and not declarative. This is achieved using TransactionTemplate and PlatformTransactionManager api directy. This is not what is usually used.
+2. To enable annotatation driven transaction management add @EnableTransactionManagement
+
+
+*/
+
+
+/*
+
+What is Transaction?
+A transaction is a sequence of one or more operations performed as a single logical unit of work. Transaction has follwing properties referred to as ACID properties.
+
+ACID:
+A --> Atomicity. This means the transaction is treated as a single unit ie. either all its operations are executed or none are. If any operation fails then the entire transaction is rolled back to its initial state.
+
+C --> Consistance. A Transaction brings the system from one consistant state to another. Consistancy rules such as unique key constraints must be maintained before and after the transaction.
+
+I --> Isolation. Transactions are isolated from each other. This means the operations of one transaction are not visible to another transaction until the first transactions is commited.
+
+D --> Durabiltity. This means the effects of transaction are permanent and survive system failures.
+
+
+In the context of databases Transactions are used to ensure data integrity during CRUD ops. Most RDBMS support transactions.
+
+BEGIN TRANSACTION;
+
+
+UPDATE Account SET balance = balance - 100 WHERE id = 1;
+UPDATE Account SET balance = balance + 100 WHERE id = 2;
+
+COMMIT;
+
+If any SQL statement fails a ROLLBACK command is issued to rollback changes till the state is as it was befor the transaction.
+
+In spring the @Transactional annotation is used to decorate methods that will run within a transactional context.
+
+
+
+*/
+
+
+/*  
+    The @Transactional annotation provides rollback capabilities by default for :
+    1. Unchecked Exceptions(`RunTime` exceptions and subclasses)
+    2. Errors(`Error` and its subclasses)
+
+
+
+
+
+
+    The readOnly attribute of transactions specifies to the underlying database that it is a read only transactions so certain processes can be optimised
+
+    The timeOut attribute of the transaction specifies that transaction will time out in a particular time if not completed ie. of it is not completed in the mentioned time then it will be rollbacked.
+
+    The rollBackFor and noRollBackFor are attributes to state if transactions should be rollbacked for a particular type of exception or not roll backed for some particular type of exception.
+
+    Two other particular type of attributes are very important ie. Propagation Behavior and Isolation Levels
+
+
+    Let's first dive into Propagation behavior:
+    There are four types of propagation behaviour:
+    1. REQIRED
+    2. REQUIRES_NEW
+    3. SUPPORTS
+    4. NOT_Supported
+
+*/
+
+
+@Transactional(readOnly=true,timeOut=10,propagation=Propagation.REQUIRED)
+public void transferFunds(Long fromAccountId, Long toAccountId, BigDecimal amount) {
+    // business logic
+    innerMethod();
+}
+
+//  For REQUIRED inner method will join the transaction started by the outer method because of Propagation.REQUIRED
+//  For REQUIRES_NEW a new transaction will be started by the innner method suspending the one started by the outer method beuase of Propagation.REQUIRES_NEW
+//  For SUPPORTS the method will run within the current transaction if one exists otherwise it will run without a transaction becuase of Propagation.SUPPORTS
+//  For NOT_SUPPORTED the method will run withour a transaction suspending one if it exists bacuse of Propagation.NOT_SUPPORTED
+
+
+
+@Transactional(propagation=Propagation.REQUIRED)
+public void innerMethod() {
+    // business logic
+    
+}
+
+
+/*
+    In spring you can specify the isolation level for a transactional method using the isolation attribute of the @Transactional annotation. Let's check the various levels one by one.
+
+    Isolation.READ_UNCOMMITED: This is the lowest isolation level. It aloows a transactin to read uncommited changes made by other transactions.
+
+    Isolation.READ_COMMITED: This level allows transactions to read only commited changes. It prevents dirty reads but still allows non repeatable reads and phantom reads.
+
+    Isolation.REPEATABLE_READ: This level ensures taht if a value is read, the same value will be available for all subsequent reads within the same transaction. It prevents dirty reads and non repeatble reads but still allows phantom reads
+
+    Isolation.SERIALIZABLE: This is the highest level and ensures coplete isolation from all other transactions. It prevents dirty reads, non repeatable reads and phantom reads but is most expensive in terms of persormance.
+
+    There are three types of reads: dirty reads, non repeatbale reads and phantom reads.
+
+    Dirty Reads: A dirt read occures whena transaction reads data that has been modified but has not been commited by any other transaction. This change might be rollbacked later so a seperate transaction may have read inconsistant data.
+
+    Non Repeatable Reads: A non repeatable read occurs when a value read by a transaction is modified by another transaction before the transaction is complete. If the transaction reads the value again then it gets a different value.
+
+    Phantom reads: A phantom read occurs when a transaction reads a set of rows that match a certain condition, and another transaction inserts, deletes or updats a row causing subsequent reads in the first transaction to return a adifferent set of rows.
+
+
+
+*/ 
+
+@Transactional(isolation = Isolation.READ_UNCOMMITTED)
+public void readUncommittedExample() {
+    // Your transactional code here
+}
+
+/*
+
+    Private constructors in java and other oop languages restrict the construction of a class object from outside the class. This sis very useful in certain scenarios and design patterns. Let's explore further:
+
+
+
+    !. Singleton Pattern: ensuring that the class has only one object and providing globalaccess to it
+
+
+
+*/ 
+
+
+class Singleton{
+    private static final Singleton instance = new Singleton();
+
+    private Singleton(){
+
+    }
+
+    public static Singleton getInstance(){
+        return instance;
+    }
+}
+
+// Doing Singleton.getInstance() will return the inner instance.
+
+
+// Factory method pattern: When you want a class to provide factory methods to create its instances rather than allowing direct instantiation.
+
+class ComplexNumber{
+    private double real;
+    private double imaginary;
+
+
+
+    private ComplexNumber(double real,double imaginary){
+        this.real = real;
+        this.imaginary = imaginary;
+    }
+
+
+    public static ComplexNumber fromPolar(double modulus, double angle){
+        return new ComplexNumber(modulus*Math.cos(angle),modulus*Math.sin(angle));
+    }
+
+}
+
+
+
+// Utility classes: When a class is just a collection of static methods and it doesn't make sense to create instances of it
+
+public final class MathUtils{
+    private MathUtils(){}
+
+    public static int add(int a, int b){
+        return a+b;
+    }
+}
+
+
+// Private constructors are also used for instantiation of Immutable Classes
+private final class ImmutableClass{
+    private final String a;
+    private final String b;
+    private final String c;
+
+    private ImmutableClass(String a, String b, String c){
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+
+
+    public static ImmutableClass instantiate(String a,String b,String c){
+        return new ImmutableClass(a,b,c);
+    }
+
+}
+
+
+// Enforcing Singleton Behavior with enum: Java enums have private constructors that are used to implement singleton behavior in a more concise way
+public enum Singleton{
+    INSTANCE;
+    public void someMethod(){
+
+    }
+}
+// Enforcing singleton behavior of using Enum is a very robust way of implementing singletons.
+
+
+
+public enum SingletonList{
+
+    INSTANCE;
+
+    private final ArrayList list;
+
+    SingletonList(){
+        list = new ArrayList<>();
+        list.add("element 1");
+        list.add("element 2");
+    }
+
+    public String getFirstElement(){
+        if(list!=null){
+            return list.get(0);
+        }
+    }
+
+    public void addElement(String x){
+        list.add(x);
+    }
+}
+
+
+
+// Usage:
+SingletonList.INSTANCE.getFirstElement();
+SingletonList.INSTANCE.addElement("element x");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,130 @@
+TLS:
+
+    Lets delve into TLS which stands for Transport Layer Security.
+    It is a protocol that ensures privacy between communicating applications and users on the internet. It is used to secure communications over networks and it is evolved from SSL(Secure Socket Layer). It works closely with protocols such as HTTP, SMTP and FTP to secure data transmission.
+
+
+
+    Let's break down the steps:
+    1. Client Hello: The client initiates the TLS handshake by sending a "ClientHello" message to the server, indicating supported cryptographic algorithms, a randomly generated value and other settings.
+    2. Server Hello: The server responds with a "ServerHello" message, selecting the cryptographic algorithm provided by the server and sending its own random.
+    3. Certificate Exchange: The server sends its digital certificate to the client to prove its identity. The certificate contains the server's public key and is signed by a trusted Cerificate Authority(CA).
+    4. Key Exchange: The client verifies the server's certificate and generates a pre master secret, which is encrypted with the server's public key and sent to the server. Both the server and client then generate a master secret using the pre master secret and the random values exchanged earlier.
+    5. Finished: Both server and client send a "Finished" message, encrypted with the master secret to confirm that the handshake is complete.
+    6. Data transmission: Following the handshake the client and server can exchange the data securely with data being encrypted using the symmetric key derived from the master secret.
+
+
+    TLS handshake breakdown:
+
+    ClientHello(Send "ClientHello" message + List of cryptographic algorithms + random number) -->
+
+    ServerHello(Receive "ClientHello" message and send "Server Hello" + pick the cryptographic algorithm to use from list received from client + random number) + send Certificate to client to prove server's identity. The certificate is contains server's public key and is signed by a trusted digital authority -->
+
+    Key Exchange: The client verifies the server's certificate and generates a pre master secret which is encrypted with the server's public key and sent to the server. Both server and client generate a master secret using pre master secret and random values exchanged earlier.
+
+    Finished: Both client and server send a "Finished" message, encrypted with the master secret to confirm that the handshake is complete.
+
+    Data Transmission: Following the handshake both client and server can now exchange messages encrypted using the symmetric key derived from the master secret.
+
+
+
+    TLS certificates are a critical component of the TLS handshake. Once the server receives the "ClientHello" it will select the crypt algo and send a certificate that contains the server's public key and is signed by a trusted digital authority. 
+
+    Once the client establishes trust that the server is truly the server it was looking for, it will generate a premaster secret which is encrypted with the server's public key and sent to the server. Both server and client generate a master secret using the pre master secret and the random numbers which were initially exchanged.
+
+    
+    
+    
+    
+    Web servers and application servers:
+
+
+    In many production environments a webe server and application server work together. The web server handles the static content and dellegates the work of processing the dynamic content to the application server.
+
+
+
+
+    OWASP(Open Web Application Security project):
+
+    1. Injection: These flaws occur when untrusted data is sent to an interpreter as part of a command or query.
+        Prevention: Use parameterized queries and prepared statements.
+                    Employ input validation to check the syntax and sanitize inputs.
+
+    2. Broken Authentication: It refers to functions related to authentication and function management that are often implemented incorrectly, allowing attackers to compromise passwords or keys.
+
+        Prevention: Implement multi factor authentication.
+                   Ensure session timeout and automatic logout on inactivity.
+
+    3. Sensitive data exposure: Sensitive data such as financial information and personal details are exposed to attackers due to inadequete encryption and protection.
+
+        Prevention: Encrypt sensitive data both at rest and in transit.
+                    Mask sensitive data fields to prevent data leakage.
+
+    4. XML external entities: It refers to security vulnerabilities in XML processors due to specification of external entities in XML documents.
+
+        Prevention: Disable external entity processing in XML parsers.
+                    Use simpler formats like JSON.
+
+    5. Broken access control: Failure in properly enforcing access controls on users, allowing them to access unauthorized data and functionalities. 
+
+        Prevention: Implement role based access control.
+                    Regularly review and update access control settings.
+
+    6. Security Misconfiguration: It occurs when seetings are defined or maintained in an insecure manner.
+        
+        Prevention: Regularly perform automated scans to identify misconfigurations.
+                    Reduce unnecessary features and functionailies to reduce the attack surface.
+
+    7. Cross side scripting: 
+
+
+
+
+
+    A database execution plan is a roadmap that a database management system (DBMS) uses to fetch data in the most efficient way possible. When a SQL query is run, the DBMS's query optimizer examines multiple execution strategies and chooses the most efficient one based on various factors such as the structure of the database, the indexes available, the statistics of the data, and the resources available.
+
+
+    Paginate data, sort data based on pagination and not all data if data volume is very high.
+    Use indexes if availbale, ask only for data that is required not unnecessary data
+
+
+    Record class in jdk 17.
+
+    For write heavy partitoning table or use nosql database
+
+    We use moking to mock objects of classes that are not directly being tested. 
+
+    How to mock private methods? Private methods should not be tested directly. They should be tested through their public methods. 
+
+
+    Before and BeforeAll
+
+
+    Write test cases after writing each method.
+
+
+
+    Start small and then get into detaails.
+
+    Code comments, variable names and classes, business logic check, length of code, dont have repeated code, as least as possible scope, dont use new keyword, use dependency injection with setter and constructor injection, make sure to use newer features, 
+
+
+
+    Procedure and Trigger and database purging. 
+
+
+    How to connect for mq?
+
+
+
+
+
+
+
+
+
+
+
+
+
+

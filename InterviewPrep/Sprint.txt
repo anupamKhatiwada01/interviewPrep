@@ -1,0 +1,4 @@
+Agile:
+
+    * Would expect a story to already be broken down by BA. If still breaking down is required then break it at screen or component level.
+    * Try TDD so that chances of failure are less. Increases quality of code. Saves time later on.

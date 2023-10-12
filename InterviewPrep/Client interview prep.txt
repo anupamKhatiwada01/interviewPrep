@@ -1,0 +1,114 @@
+.java file --> javac compiler converts it to .class file which is platform independent bytecode --> java command -->
+		verifies byte code for memory safety and access controls --> (Optional)JIT compiler converts parts of bytecode to machine code for faster execution 
+		--> JVM converts the bytecode to machine specific machine code which is executed --> JVM keeps track of memory management using Garbage Collector
+
+
+
+
+
+Hibernate --> ORM framework for converting java objects to database tables and vice versa. It allows developers to work with java objects rather than database tables.
+
+	Advantages-->
+
+		Abstraction over SQL --> Abstracts underlying sql queries allowing developers to focus on busniess logic rather than database operations.
+		Portability --> Databse agnostic meaning we can switch database with minimum code changes.
+		Caching --> First and second level caaching to imporve performance.
+		Lazy Loading --> It allows for lazy initialization of objects ie. it'll only fetch data when required.
+		Rich Query Language --> HQL allows for database independent queries
+		Automatic table generation --> Can automatically generate database schema based on table operations
+
+	Limitations --> 
+		
+		Performance overhead --> The abstraction layer can cause performance issues especially for complex queries.
+		Learing Curve --> Steep learing curve due to its rich set of features.
+		Debugging --> Debugging can be challenging because actual SQL queries are abstracted away.
+		Memory Consumption --> The caching and object relational mapping can consume a significant amount of memory.
+		Not suitable for batch processing --> May not be the best choice for batch processing which require optimised hand tuned sql queries.
+
+	Caching --> 
+	
+		First Level cache --> Session scope, always enabled
+		Second Level cache --> Session Factory scope. Needs to be enabled explicitely.
+
+
+
+
+Session and Session Factory --> 
+	Session Factory --> Thread safe factory for session objects. Its creates session objects. Its scope is per database and it is shared across the application.
+		Responsibilities --> Reads the ibernate configuration and mappings to create a configuration object.
+							 Creates Session objects.
+							 Holds second level cache data that is shared across all session objects.
+
+		Lifecycle --> Created once on application startup. Closed once on application shutdown.
+		
+		Configuration configuration = new Configuration();
+		configuration.configure("hibernate.cfg.xml");
+		SessionFactory sessionFactory = configuration.buildSessionFactory();
+
+	Session --> A single threaded short lived object representing conversation between application and the persistant store ie. the database.
+				It lets users query objects and retreive them from the database.
+
+			Scope --> Typically tied to single level application transaction.
+			Responsibilities --> Wraps a JDBC connection. Acts as a factory for transaction objects. Holds forst level cache of retreived data for optimized performance.
+			Lifecycle --> Starts when created by session factory object. Ends when session is closed or disconnected.
+
+
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+			// CRUD operations
+			tx.commit();
+			session.close();
+
+
+Benefits of spring framework --> 
+		Simplifies complexity: Inversion of control(IOC) ie. automatic dependency management and Aspect Oriented Programming(AOP) ie. seperation of cross cutting concerns such as logging and security. 
+
+
+Application Context is a centralized interface that reads the bean definitions provided through various methods such as xml file, annotation class etc. It creates the objects defined in the xml file etc. and acts as a global scope from wher the objects can be accessed by various parts of the program. The objects are passed into various classes through the Autowiring annotation.
+
+
+
+To prevent SQL injection in particular we can -->
+
+		-> Use Prepared statement class
+		-> Use ORMs rather than using string queries
+		-> Sanitize user inputs
+		-> Use HQL or JPQL 
+		-> Least privilage principle - Use the database server with lowest privilage. Don't run it as admin or root user.
+		-> Error handling - Make sure the errors anre properly handled and not displayed to the end user
+
+
+How to find if your program has dreadlocks?
+
+
+
+
+What are the various ways of injecting beans and which is the best way?
+Constructor injection: Injection through constructor by passing dependencies as constructor parameters using autowired.
+Setter injection: Injection through setters by passing dependencies as setter parameters using autowired.
+Field Injection: Directly injecting beans as fields using autowired.
+
+
+Constructor injection, setter injection and field autowiring
+
+
+DML is Data Manipulation Language which is the subset of SQL which allows us to store data already stored in the database.
+primary DML commandds are Select, Update, Insert, Delete and Merge. They are controlled through transactional control statements like Commit, Roleback and Savepoint. They can be conditional using Where clauses to specify the rows to be affected.
+
+
+What is the spring IOC container?
+Spring IOC conatiner is a core component of spring framework that allows for creation of dependency objects, configuring them and managing their lifecycle from creation to destruction. There are two types of conatiners in spring namely BeanFactory and ApplicationContext.
+BeanFactory container: Simplest container providing resources for dependency injection. Preferred when resources are limited like mobile and applet based applications.
+Spring Application Context Container: Adds more enterprise specific functionality such as ability to resolve textual messages from properties files and the ability to publish events to interested event listeners.
+
+
+
+Are beans thread safe?
+The defaullt scope of beans is singleton ie. All processes access the same object for modification of they are not thread safe but making the scope prototype changes or session makes the beans thread safe at the expense of performance.
+
+
+What is JDBC?
+JDBC is an abstraction layer that allows users to choose between applicatons. Its allows developers to write database applications without having to bother about the underlying database.
+
+
+

@@ -1,0 +1,59 @@
+Communication tips:
+    
+    * Dont say theoretical knowledge. Say yes and anticipate questions.
+    * AGILE--> YES, task and planning 
+    * UAE offshore* and in country
+
+    * 4 ceremonies --> Sprint planning, daily standup, Sprint review, Sprint retrospective 
+    * 10 WD, 
+    
+    
+        SP--> 2-4 hours(dicuss all stories. TL readies stories, Functional grooming(BA) and technical grooming(Architect)-> classes to be changed) 
+             
+             Epic--> feature--> (developer level)story --> task
+             
+             Large story--> break down into multiple task(work breakdown structure) --> early testing(incremental testing)
+             
+             Development+review--> testing
+
+             Jenkins--> pipeline(Automated pipeline+sonar(code coverage)+junit+whitesource) --> snapshot deployed on CI server --> *jenkins parameters*
+
+
+        Daily standup --> Impediments, yesterdays work, todays plan
+
+        Sprint review meeting--> Customer demo. Review comments
+
+        Sprint retrospective --> Next sprint planning meeting(Day 1) --> what went well and not well + improvement areas
+
+    agile/kanban board --> todo - inprogress - completed - reviewed - verified - closed
+
+    Spend couple of hours on analysis and impediment analysis before starting resulting in less defect leakage.
+
+
+
+    --------------------------------------------------------------------------------------------------
+
+    Introduction:
+
+    Full stack developer
+
+    Agile projects
+
+    Breakdown tasks + analysis + estimation(optional CI build everyday based on which next day planning) + daily efforts and task updation in ADO + DOD(definition of done) + release notes, installation guide(how to install steps:high level steps) and runbook update(excel sheet: basic commands to install the application)(optional migration guide)
+
+    Coding practices(Java + secure coding practices)
+
+    Linux and deployment(SITA processes)
+
+
+    ---------------------------------------------------------------------------------------------------
+
+    Production incident--> logs -> java(manifest in local env) or db(performance issue) problem
+
+    J2EE applications are enterprise where there are multiple involved
+
+
+
+             
+
+

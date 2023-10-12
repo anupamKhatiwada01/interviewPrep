@@ -1,0 +1,115 @@
+Collections framework:
+    Package--> java.util
+    Need--> Prior to Collections there were Vectors, Stacks and Arrays but there was to common interface so one had to remember all functions and syntax
+    Collection class vs Collections framework
+
+
+
+        Collection<E> interface --> List, Queue and Set are the interfaces that extend the Collection interface
+
+
+        Iterator interface methods --> next(), remove() and hasNext()
+
+        Iterable interface allows the collection to be iterated over. The root interface for the entire collection framework is the Iterable interface. The Collection interface extends the Iterable interface hence the subclasses of the Iterable interface also implement the Iterable interface.
+
+
+        List interface extends Collection interface. Stores an ordered collection of data and may contain duplicates. Similar to Arrays use zero based indexing. It is implemented by LinkedList, ArrayList, Vectors and Stack.
+
+
+        List<E> linkedList = new LinkedList<E>();
+        List<E> arrayList = new ArrayList<E>();
+        List<E> vector = new Vector<E>();
+
+        ArrayList are similar to arrays. They are called dynamic arrays ie. their size can be indreased or decreased if elements are added or removed. It implements List interface. They cannot be used for primitive data like int, char etc so we need to use wrapper classes.
+
+        Addiition of elements to array list:
+            Method1-->
+                ArrayList<E> arrayList = new ArrayList<E>();
+                arrayList.add(Object<E>);
+                arrayList.add(Object<E>);
+                arrayList.add(Object<E>);
+
+            Method2-->
+                arrayList = new ArrayList<E>(Arrays.asList(Object<E>,Object<E>,Object<E>));
+
+            Method3-->
+                arrayList = new ArrayList<E>(List.of(Object<E>,Object<E>,Object<E>));
+
+
+
+        LinkedList class extends the AbstractSequentialList and also extends the List, Deque and Queue interface.
+        Elements are called nodes. The elements are not stored in contigous memory so direct access to that element is not possible.
+        LinkedList uses a DoublyLinkedList to store its elements whereas ArrayList uses a dynamic array to store its elements.
+        Linked list is faster in the manipulation of data as it is node based. It is not synchronized so multiple threads can access and manipulate its contents in real time.
+
+        Creating a LinkedList object:
+            LinkedList<E> linkedList = new LinkedList<E>();
+        Creating a LinkedList from an existing Collection(Any object that implements Collection interface) object:
+            LinkedList<E> linkedList = new LinkedList<E>(C);
+
+        Same add remove and size methods are available on the LinkedList object like any other Collection object.
+
+
+        Like ArrayList, Vectors are implementation of dynamic arrays but they are synchronized by default so only one thread can access them at a time. Before Collections framework Vectors were legacy code but they have been reconstructed. They are similar to ArrayList but synchronized.
+
+
+        Stack class extends the Vector class and is its subclass. works on Last In First Out.
+        To put an object on top of the stack we call the push() method, to remove an object we cal the pop() method.
+        Other methods like peek(), search() and empty() are used to perfom operations on the stack.
+        Since Stack class extends the Vector class so Stack is thread safe. This has overheads so if thread safety is not a priority ArrayDeque is preferred.
+
+
+        The Queue interface extends the Collection interface. It uses First-In, First-out(FIFO). Queue is an ordered list where there is a need to maintain the order of elements. It has classes PriorityQueue and ArrayDeque. The most imporatant class is PriorityQueue.
+        PriorityQueue extends AbstractQueue and implements Queue.
+
+        It does not allow null values to be stored.
+        The add() method is used to add elements, poll() method is used to remove the top most element and peek() is used to display the top most element.
+
+
+        The Set interface defines an unordered collection. It extends the Collection interface.
+        We cannot store duplicate values in this. The Set interface is implemented by popular classes such as HashSet, LinkedHashSet and TreeSet.
+
+
+        Set<E> hs = new HashSet<E>();
+        Set<E> lhs = new LinkedHashSet<E>();
+        Set<E> ts = new TreeSet<E>();
+
+
+        HashSet--> The HashSet class implements the Set interface. It uses Hash table for storeage which uses a mechanism called hashing.
+                   In hashing the informational content of a key determines its unique value called its hashcode.
+                   Hashcode is then used as an index where the data associated with the key is then stored. Elements in a hashset are not saved in the same order. We can store null values in a HashSet. It is non synchronized ie. multiple threads can access the code.
+                   Multiple operations on a HashSet can be performed at a time.
+
+                   HashSet<E> hs = new HashSet<E>(C);// C is a collection
+
+                   Provides the same methods as other Collection objects ie. add(), remove() and size().
+
+        LinkedHashSet maintains a Linked List of entries in a set and hence maintains the order of insertion.
+
+
+        TreeSet implements SortedSet interface where elements are stored in a a sorted/ascending manner.
+        TreeSet uses a tree to store elements. It contains unique elements. The access and retreival time is very fast.
+        Tree Set is also non synchronized ie. multiple threads can access the object at the same time.
+
+
+
+
+
+        Map is a key value pair. It contains unique keys as the same key cannot have multiple mappings.
+        Hashcode is used to determine whether key1 and key2 will be placed in the same bucket. The equals method is used to check whether key1.equals(key2). If they are equal then the value of key1 object will be replaced else a linked list or tree structure will be used to store both the values. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

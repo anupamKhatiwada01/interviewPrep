@@ -1,0 +1,52 @@
+Databases:
+
+
+    RDBMS: Data is stored in Rows and columns where each row is a record and each column is a field.
+
+    Primary key is the unique identifier for a record in a table.
+    Foriegn key is a field in a table that points to the primary key of another table.
+    Composite key consists of two or more attributes to uniquely identofy a record.
+
+
+    DDL: Commands to manage database structures such as CREATE, DELETE, ALTER
+    DML: To retreive, insert, update and delete data in the database.
+
+
+    Normalization: The process of organizing data in a database to minimize redundancy and avoid undesirable characteristics such as insertion, update and delete anomalies.
+
+    Denormalization: This is the process of combining tables to increase read efficiency at the expense of write efficiency.
+
+
+
+
+
+    JOINS: JOINS allow us to retreive data from multiple tables based on related columns between them
+
+    INNER JOIN: It is used to retreive records with matching values in both tables.
+    select * from orders inner join customers on orders.customerID = customers.customerID;
+
+    LEFT OUTER JOIN: A left join or left outer join returns all the records from the left table and the matching records from the right table.
+    IF there is no match null values are returned from the right table.
+    select * from employee join department on employee.deptID = department.deptID;
+
+    RIGHT OUTER JOIN: A right join or right outer join returns all the records of the right table and the matching records from the left table.
+    If there are no matching records in the left table the null values are returned.
+
+    FULL OUTER JOIN: A full outer join returns rows when there is a match in any of the tables being joined. It returns NULL values for every column from the table that lacks a matching row.
+
+    A self join is joining of a table with itself. It is useful when there is a heirarchical structure in the data.
+
+
+    CROSS JOIN is the cartesian product of both the tables.
+
+
+
+
+    Client--> Dispatcher Servlet --> Controller Mapping handler 
+                                <--
+                                 --> Controller --> Service --> DAO 
+                                <--  datamodel + name of view 
+                                 --> view resolver which generates the view
+                                <-- 
+         <--   
+

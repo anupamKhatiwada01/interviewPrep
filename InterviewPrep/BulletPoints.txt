@@ -1,0 +1,282 @@
+Security:
+
+    Three Types of Security:
+        * Platform security(Security of the environment ie. Linux box. Handled by Infra team)
+        * Network Security (transport layer security implemented using SSL certificates over all communicable data)
+        * Application security(Implemented using Spring security in the application)
+
+
+    TLS(Transport Layer Security):
+        * TLS 1.3 features (works only on Linux 8 and above)
+        * TLS handshake
+
+    OWASP security:
+        *Injection
+        *Broken Authentication
+        *Sensitive Data Exposure
+        *XML External Entities (XXE)
+        *Broken Access Control
+        *Security Misconfiguration
+        *Cross-Site Scripting (XSS)
+        *Insecure Deserialization
+        *Using Components with Known Vulnerabilities
+        *Insufficient Logging & Monitoring
+
+
+
+
+
+Collection framework:
+    
+    Key points:
+        
+        * All classes implement Collection interface which extends Iterable interface.
+        * Package is java.util.
+        * Extended by interfaces like List, Set, Queue and implemented by classes such as ArrayList, HashSet, LinkedList
+        * Key methods: add(E e), remove(Object o), contains(Object o), size(), iterator(), toArray()
+        * As Collection interface extends Iterable it can be iterated upon using enhanced for loop or iterator.
+        * Iterator interface methods --> next(), remove() and hasNext()
+        * List extends Collection interface. It is implemented by ArrayList, LinkedList, Vector and Stack classes
+        * LinkedList work in the node based pattern that we are familiar with
+        * ArrayList, LinkedList are both not synchronized so multiple threads can access them at the same time
+        * Vectors like ArrayLists are dynamic arrays but are synchronized so only one thread can access them at a time
+        * Stack extends Vector and is its subclass so it is also synchronized. Uses LIFO. Has push(), pop(), search() and empty() methods.
+        * Queue is an ordered list where there is need to maintain an order of elements. It uses FIFO. It has add() method to add element, poll() to remove the top element and peek() to display the top element.
+        * Set interface is used to store an unordered collection. It is implemented using popular classes such as HashSet, LinkedHashSet, TreeSet.
+        * LinkedHashSet stores entries in the same order as they are inserted.
+        * TreeSet stores elements in a tree format in a sorted manner so the access and retrieval is very fast.
+        * HashSet, LinkedHashSet and TreeSet are all non synchronized so multiple threads can access them at the same time.
+
+
+
+Spring:
+
+    Benefits of spring: 
+        * Inversion of Control: Automatic dependency and bean lifecycle management.
+        * Aspect Oriented Programming: Seperation of cross cutting concerns eg. logging, security etc.
+
+    Features and concepts:
+        * Application Context and Bean factory:
+            -> Application Context and Bean Factory are both spring features that facilitate bean lifecycle management and dependency injection. Application Context is more suitable for enterprise applications because of richer set of features.
+            -> Differences: 
+                --> AC eager loaded beans by default whereas BF lazy loaded beans by default.
+                --> More resource intensive.
+
+        * Various ways of injecting beans to classes:
+            -> Constructor, setter and field Autowiring.
+            -> Best way of injection: Arguably constructor injection is the best because it is more readable and throws issues at startup rather than later. But depends on the use case.
+        
+        * Are beans thread safe? : By default the bean scope is Singleton so all threads work on the same object so they are not thread safe. We can make them thread safe by changing the bean scope to either prototype or session making them threadsafe as new beans will be created at session or thread level with this but this adds more overhead.
+
+
+
+Database:
+
+    * Data stored in rows and columns where each row is a record and each column is a field.
+    * Primary key s the unique identifier for each record. Foriegn key points to the primary key of another table.
+    * Composite primary key is the combination of two rows which together constitute the primary kkey for a table.
+    * DDL: Data definition language(Commands regarding table structure such as ALTER, DROP, CREATE)
+    * DML: Data Manipulation Language(Commands to manipulate the data in a table such as INSERT, UPDATE, DELETE)
+    * Normalization: The process of optimizing data in the database to minimize redundancy and decrease insertion and updation anomalies.
+    * Denormalization: This is the process of combining tables to increase read efficiency but decreases write efficiency.
+    * Joins: Combining tables to retreive data from multiple tables based on related fields between them.
+            Inner Join: Data common in both tables
+            Left Outer join: All data in left table + common data in right table. Uncommon rows in right table will be returned as null.
+            Right outer join: All data in roght table + common data in left table. All uncommon data in left table will be returned as null.
+            Full outer join: Matching data from both tables puls all the unmatched rows will be returned as null values.
+            Self join: Joining one table with itself. Used for heirarchical data.
+    * Database execution plan is the method of retriving data from the database in the most efficient manner. When a SQL query is run the database's query optimizer examines multiple execution strategies and picks the most efficient one based on factors such as structure of database, indexes available, statistics of data and resources available.
+    * Pocedure or stored procedure is a set of SQL statements for queries called multiple times. These are stored in the database. Useful for encapsulate logic, improve performance and security. It can be called from code through jdbc or other persistance frameworks.
+    * Trigger is a set of instaructions that are automatically triggered based on certain events on a particular table or view.They are implemented at database level and are not accesible from code.
+    * Database purging is removing data from database that is no longer necessary to free up space and maintain db performance.
+
+    * Spring JDBC is an abstraction layer that facilitates easy integration with relational databases without having to write tedious JDBC related code. It gives us access to JdbcTemplate object used to do database transactions. The datasource can be configured in the server.xml file and can be accessed using JNDI or in code.
+
+    * Synonym is an alias for a table aloowing us to use alternative name rather then the actual table name. They allow a degree of abstraction and security by not exposing the actual table name to the user.
+
+    * View: View is a virtual table based on the result set of a sql statement. They can be used to aggregate data presenting it in a special format. They always store the latest data and is virtual. This data is not persisted so if the server goes down the data stored in the view is lost.
+
+    * Materialized View:  Materialized view is the result of a particular query which is stored in the database. The result of materialized view is persisted so the data is not lost even if the server goes down. But the data in the materialized view is not the latest data and has to be refreshed either manually or via a job.
+
+    * Datasource: A data source is an object that enables a java application to intercat with a db. It acts as a factory for connection objects and is used in the context of connection pooling. The datasource object is generally configured in the application server and it is accesed in the code via JNDI.
+
+    * Connection Pool: CP is a cache of connection objects maintained by the application so that a new connection does not need to be established for each transaction. The reusability of connections greatly enhances the performance of the application. After using the connection to perform transactions we call close method on a Connection object which does not close a connection but returns it back to the connection pool.
+
+
+Tomcat: Application server.
+
+    Directory structure: bin, conf, lib, webapps, temp, work
+        * bin -> contains scripts to start, stop and manage the tomcat server.
+        * conf -> contains configuration files. Will dive deep into this in some time.
+        * lib -> contains all the necessary java libraries and jar files required by tomcat to function
+        * temp -> temporary directory used to store temporary files
+        * webapps -> directory where the applications are deployed included war files and exploded directories
+        * work -> Utilized by tomcat to store files generated at runtime including JSP files compiled into servlets
+
+    Tomcat is an application server. Web servers serve static content whereas application servers generate dynamic content passed on to the web server to share.
+
+
+
+Java 17 features: record classes are used as data transfer objects without the developer having to write verbose code usch as private variables, getters/setters etc. it can be used like record Person(int id, String name){} without a body and we can use a constructor like Person(1,"abc") and Person(2,"xyz") to use it. It also provides regex matching capabilities in switch statements.
+
+
+
+
+Spring security:
+    * Spring security is configured using xml based configuration by addition of an security.xml file in the WEB-INF/ folder. 
+    * The location of this file is added in the web.xml configuartion file.
+    * Inside security.xml file we define intercept-url on http tag and give the various patterns of urls to intercept to check for authentication.
+    * Role based authorization is also implemented usig the hasRole(), hasAnyRole(), hasAuthority() and permitAll() functions.
+
+
+JNDI: Java Naming and Directory interface
+    * It is a java api that allows clients to discover and look up data and objects via a name.
+    * We can use it to access resources via its name directly in code using the InitialContext object.
+    * This is how datasources and connection pools are set up.
+    * Resource transparency is the way resources are made available to a programmer while hiding the internal complexities of the resource.
+
+
+Logging: Done using log4j library. Configured using the log4j.xml file.
+
+    Logging Label priority:
+
+        OFF: The highest possible rank and is intended to turn off logging.
+        FATAL: Indicates severe errors that cause premature termination.
+        ERROR: Signifies other runtime errors or unexpected conditions.
+        WARN: Designates potentially harmful situations.
+        INFO: Messages that convey some information.
+        DEBUG: Messages that convey detailed information for debugging.
+        TRACE: The lowest rank and designed to offer more detailed information than DEBUG.
+        ALL: Intended to turn on all logging.
+
+
+
+Transaction management in Spring:
+
+    Transaction management in spring is done using the @Transactional annotation and the @EnableTransactionManagement annotation at the configuration level. Any method annotated with @Transactional is a method in which database transactions take place. It has certain attributes such as Propagation for propagation of transaction to inner methods, Isolation, rollbackFor, noRollbackFor, timeout, noRollbackForClassName etc. These specify which exceptions to performa arollback for and which to not perform a rollback for. If we want deeper programmatic access to transactions then the PlatformTransactionManger bean class is to be used.
+
+
+Commit and rollback: 
+    Commit -> Once the transaction is commited the changes are stored to the database.
+    Rollback -> If any issue happens in between the transaction then all the changes made in the transaction upto this point are undone.
+
+MessageQueues: 
+    Asynchronous service to service communication.These are used in applications with multiple components working asynchronously for message passing and processing. It has three components: producer, queue and consumer.
+
+
+        Why are message queues needed?
+            1. Decoupling: It helps in decoupling the producer and consumer meaning the producer doesnt need to know the details of the consumer.
+            2. Load Balancing: It assists in load balancing by distributing the message evenly to consumers.
+            3. Fault Tolerance: It ensures fault tolerance by storing the messages until they are processed.
+            4. Scalability: It facilitates scalability by allowing you to add more consumers to process messages faster.
+
+        Producer produces the message and goes about its business. The message is stored in the message queue which is consumed by the consumer application.
+
+        There are types of queue:
+        point to point -> messages are picked up and processed by a comsumer. Its reliable.
+        pub sub -> messages are broadcast by the publisher by adding it to a queue and whoever subcribes to it will get a notification when a new message is broadcast.
+
+        * Dead letter queue -> When we send messages to queues which does not exist it ends up in a dead letter queue
+        * Blackout queue is the queue where particular messaged which could not be consumed upon certain preconfigured number of retries end up.
+        * Queue manager -> used for creating, handling and managing queues. Creating, deleting and managing queues.
+        * Queue channel -> communication pathway between queuemanager and queue or multiple queue managers.
+
+
+Gang of four design patterns-> Creational(Related to creation: Singleton and Factory), structural(Adapter and facade), behavioural(Regarding particular data structure or algorithm) and concurrent design pattern.
+
+
+SOLID:
+    S-> Single responsibilty
+    O-> Open Closed(Easy to extend and difficult to modify)
+    L-> Liskov Substitution(Perfectly extendible)
+    I-> Interface segregation(Specif interfaces and not generic interfaces)
+    D-> Dependability(High level modules should not depend on low level modules. Rely on abstraction instead of concrete implementation)
+
+ACID:
+    A -> Atomicity(Complete rollback if any issue)
+    C -> Consistancy(Commit should change state from one state to another)
+    I -> Isolation(No concurrent execution of transactions. Changes made within transactions not yet commited should not be visible to other transactions)
+    D -> Durability(Changes commited should persist)
+
+
+Using maven and pom rather than raw java compilation the benefits we get is that we can specify the java version to use, dependency management, build lifecycle etc. 
+    * The maven compiler plugin has source argument for representing the version of java llanguage to be used to interpret the source files.
+    * The target argument for compiler representing the version of java runtime to be used to run the compiled classed.
+
+
+
+
+Start small and then get into detaails.
+
+    * Code comments
+    * variable names and classes
+    * business logic check
+    * length of code
+    * dont have repeated code
+    * as least as possible scope
+    * dont use new keyword
+    * use dependency injection with setter and constructor injection
+    * make sure to use newer features
+
+
+
+Approach:
+
+    * Business case- user wants
+    * Use case- what you'll implement
+    * Technical details
+    * Impact area of use case --> backward compatibilty*
+    * Once analysis is done I will break big task into smaller units  --> based on different impacted components
+    * Check for challenges in use case in which case get clarification or check for impediment earliest
+
+    * If impediment is impacting one use case work on other use case by breaking down tasks
+    * Exaustive Junit classes are written
+    * Best practices and proper logging is implemented
+
+
+
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+public class UserServiceTest {
+
+    @Mock
+    private UserRepository userRepository;
+
+    private UserService userService;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        userService = new UserService(userRepository);
+    }
+
+    @Test
+    public void getUserDetail_shouldReturnUserDetail() {
+        // Arrange
+        String userId = "123";
+        String expectedUserDetail = "John Doe";
+        
+        when(userRepository.getUserDetail(userId)).thenReturn(expectedUserDetail);
+
+        // Act
+        String actualUserDetail = userService.getUserDetail(userId);
+
+        // Assert
+        assertEquals(expectedUserDetail, actualUserDetail);
+    }
+}
+
+
+
+
+
+
+
+

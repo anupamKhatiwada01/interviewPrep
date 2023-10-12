@@ -1,0 +1,20 @@
+Message Queues are a form of asynchronous service-to-service communication used in serverless and microservices architecture. In this system message queues provide a temporary message storage mechanism, allowing different parts of the system to communicate and process messages asynchronously.
+
+
+
+MQS work by storing messages until they are received by a receiver application.
+
+They have three parts:
+1. Producer: Application that produces the message.
+2. Message Queue: The service that stores the message.
+3. Receiver: Application that consumes the message.
+
+
+The producer produces the message and goes about its business. This message is stored in the message queue until the consumer picks up the message and processes it.
+
+
+Why are message queues needed?
+1. Decoupling: It helps in decoupling the producer and consumer meaning the producer doesnt need to know the details of the consumer.
+2. Load Balancing: It assists in load balancing by distributing the message evenly to consumers.
+3. Fault Tolerance: It ensures fault tolerance by storing the messages until they are processed.
+4. Scalability: It facilitates scalability by allowing you to add more consumers to process messages faster.

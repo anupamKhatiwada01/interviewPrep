@@ -1,0 +1,177 @@
+Spring related prep:
+
+
+Both ApplicationContext and BeanFactory are core components of Spring framework. They are responsible for managing the lifecycle of beans which are the objects that make up the sping application.
+
+AC is a high level interface that provides more enterprise specific functionality as compared to BF.
+
+
+
+
+
+public class MainApp{
+    public static void main(String[] args){
+
+        ApplicationContext ac = new ClassPathXmlApplicationContext("Beans.xml");
+
+        <!-- It is not necessary to pass in the current application context as the source but its a good practice because then at the listener level we have access to the AC and the various beans it posseses -->
+        ac.publishEvent(new CustomEvent(ac,"This is x event"));
+
+
+        HelloWorld objA = (HelloWorld)ac.getBean("helloWorld");
+        objA.getMessage();
+
+
+        BeanFactory bf = new XmlBeanFactory(new ClassPathResource("Beans.xml));
+
+        HelloWorld objB = (HelloWorld)bf.getBean("helloWorld");
+        objB.getMessage();
+        
+    }
+}
+
+
+
+class CustomEvent extends ApplicationEvent{
+
+    private String message;
+
+    CustomEvent(Object a, String message){
+        super(a);
+        this.message = message;
+    }
+
+
+    public String getMessage(){
+        return "Message: "+this.message;
+    }
+
+}
+
+
+class CustomEventListener{
+
+    @EventListener
+    public void onEventListener(CustomEvent event){
+
+        ApplicationContext ac= (ApplicationContext) event.getSource();
+        <!-- At this point you have access to everything  -->
+        System.out.println("The message received is: "+event.getMessage());
+    }
+
+
+}
+
+
+class HelloWorld{
+    private String message;
+
+    public void setMessage(String message){
+        this.message = message;
+    }
+
+    public void getMessage(){
+        System.out.println("Your message: "+this.message);
+    }
+}
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="helloWorld" class="HelloWorld">
+    <property name="message" value="Hello, World!"/>
+  </bean>
+
+
+   <bean id="customEventListener" class="CustomEventListener"/>
+
+</beans>
+
+
+
+
+Event Propagation: AC has built in support for event propagation meaning you can define custom events that can be listened to by other beans in the context.
+
+Bean Factory does not have the feature of Event Propagation.
+
+
+Feature	ApplicationContext	BeanFactory
+Bean Lifecycle Management	Yes	Yes
+Event Propagation	Yes	No
+Internationalization	Yes	No
+Web Application Support	Yes	No
+Lazy Initialization	No (Eager)	Yes (Lazy)
+Resource Access	Advanced	Basic
+
+
+
+
+Hibernate: Hibernate is a powerful Object Relational Mapping framework for Java applications. It allows you to map java objects to database tables and vice versa.
+
+Core concepts of Hibernate:
+1. Session: The primary interface for persistance service.
+2. SessionFactory: Factory for session objects
+3. Transaction: Represents a unit of work with the database
+4. Configuration: Represents the configuration properties
+5. Mapping: Process of transforming a java object into a database entity
+
+
+Steps to use hIbernate:
+1. Add Hibernate dependency in pom
+2. Create a configuration file to add hibernate dependencies(`hibernate.config.xml`).
+3. Create entity and mapping files
+4. Make the session object using factory method of Sessionfactory.
+5. Begin transaction and commit
+
+
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+public class Main {
+    public static void main(String[] args) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+
+            // Create a new Employee
+            Employee emp = new Employee();
+            emp.setId(1);
+            emp.setName("John");
+            emp.setSalary(50000);
+
+            // Save the Employee
+            session.save(emp);
+
+            // Commit the transaction
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

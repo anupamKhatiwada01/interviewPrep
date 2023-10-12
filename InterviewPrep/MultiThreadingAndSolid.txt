@@ -1,0 +1,144 @@
+MultiThreading:
+
+A Thread is an extremely lightweight process or the smallest component of a process that enables software to work more effectively by doing numerous tasks concurrently.
+
+Its used in server side programs as a server should be multithreaded so that many clients can be served at once.
+
+Multithreading is a feature in java that concurrently executes two or more parts of a program for utilizing the CPU at its maximum.
+
+In java there is a Thread class that can be extended to create custom threads or Runnable interface to define tasks for threads.
+
+There are two types of threads. User threads and daemon threads. User threads are created by the application and run until the task is completed where as daemon threads are background threads that are automatically terminated when there are o user threads running.
+They are used for tasks such as garbage collection etc.
+
+
+Use of multi threading in java:
+Thread is managed individually so user is not blocked. It is used to save time as multiple operations are performed concurrently.
+Since threads are independent other threads don't get affected even if an exception occurs on a single thread.
+
+
+Solid Principles:
+
+Let's list  down:
+1. The Single responsibility principle
+2. The Open-closed principle
+3. The Liskov substitution principle
+4. The Interface segragation priciple
+5. The Dependency inversion principle
+
+
+Let's go into more detail:
+1. Single Responsibility principle states that each class should in terms of business logic do only one thing and not mutiple things. So for eg. If we have book objects and an Invoice object that calculates the invoices for books then only the clalcuation should be done in the invoice object. Things like saving and prinitng and all should be done in other places.
+2. The Open-Closed principle says that classes and functionalities should be easy to extend and difficult to modify. This is so because we do  not want to impact code which is already working and production ready. Extension of functionality should be done using interfaces.
+3. The Liskov substituion principle states that subclasses should be substitutable for their base classes. This is difficult to catch and track and is a harder problem than how it might initially look. Point is that extension of features should not break business logic at a lower level of abstraction. Catching these subtle errors are difficult.
+4. Interface segragation principle states that client specif interfaces are better than one general pupose one. Clinets should not be forced to implement a function they don't need to.
+5. Dependency Inversion principle states that our classes should depend upon intefaces and not concrete classes. The implementation of this principle is same as Open-Closed principle.
+
+
+
+
+
+
+interface Numbering{
+    void method1();
+    void method2();
+}
+
+inteface SpecificNumbering{
+    void method2();
+}
+
+
+// This class is tested and in production so we don't want to make changes here. But we need to add a new feature called method2
+class One{
+    public void methodOne(){
+        //
+    }
+}
+
+
+
+class One implements SpecificNumbering{
+    method1(){}
+    
+}
+
+
+class Two implements Numbering{
+    void method1(){}
+    void method2(){}
+}
+
+
+// Add feature method3
+
+interface NumberingThree{
+    void method3();
+}
+
+class Three implements NumberingThree{
+    void method3(){}
+}
+
+
+// Let's implement an example of dependency injection
+class FileReader{
+    public void readFromFile(){
+        //
+    }
+}
+
+// In this class everything is so tightly coupled. Making changes to any of the dependencies would break everything
+class DataReader{
+    private FileReader fileReader;
+
+    DataReader(FileReader fr){
+        this.fileReader = fr;
+    }
+
+    public void read(){
+        this.fileReader().readFromFile();
+    }
+}
+
+
+// Let's implement this in a proper way implementing dependency injection principle
+interface Reader{
+    void read();
+}
+
+
+class FileReader implements Reader{
+    void read(){
+        // Read from file
+    }
+}
+
+class DatabaseReader implements Reader{
+    void read(){
+        // Read from file
+    }
+}
+
+
+
+// With this implementation we can pass whatever object that implements Reader interface thus implementing loose coupling
+class Datareader{
+    Reader reader;
+
+    DataReader(Reader reader){
+        this.reader = reader;
+    }
+
+    void readData(){
+        this.reader.read();
+    }
+}
+
+
+
+
+
+
+
+
